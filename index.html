@@ -361,6 +361,23 @@
     font-family:'Barlow Condensed',sans-serif; letter-spacing:2px; font-size:14px; color:var(--muted);
   }
   @media (max-width:560px){ .lb-btn{width:40px; height:40px; font-size:19px;} }
+  .btn-hire{background:#25D366; color:#07310f; box-shadow:0 6px 0 #13833f;}
+  .btn-hire:hover{box-shadow:0 8px 0 #13833f;}
+  #contratanos{background:var(--void); padding-block:70px;}
+  .hire-box{
+    background:linear-gradient(140deg, var(--green-deep), var(--void-2));
+    border:1px solid rgba(231,184,35,.25); border-radius:18px; padding:40px 32px;
+    display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center;
+  }
+  .hire-box h2{margin:0; font-size:clamp(26px,4.5vw,40px); color:var(--cream);}
+  .hire-text{margin:0; color:var(--muted); max-width:52ch; font-size:16px; line-height:1.6;}
+  .btn-hire-big{
+    flex-direction:column; gap:2px; margin-top:10px; padding:16px 36px;
+    background:#25D366; color:#07310f; box-shadow:0 6px 0 #13833f;
+  }
+  .btn-hire-big:hover{box-shadow:0 8px 0 #13833f;}
+  .btn-hire-big strong{font-size:20px; letter-spacing:1.5px;}
+  .btn-hire-big small{font-size:12px; letter-spacing:.8px; text-transform:none; font-weight:600; opacity:.85;}
   footer{
     background:var(--void-2); border-top:1px solid rgba(231,184,35,.15); padding-block:36px 100px;
     text-align:center; color:var(--muted); font-size:13px;
@@ -421,6 +438,7 @@
       <a href="#merch">Merchandising</a>
       <a href="#prensa">Opiniones</a>
       <a href="#proximos">Próximos Shows</a>
+      <a href="#contratanos">Contratanos</a>
     </nav>
   </div>
 </header>
@@ -438,6 +456,7 @@
       <div class="hero-ctas">
         <a class="btn btn-solid" href="#disco">Escuchá el disco</a>
         <a class="btn btn-outline" href="#proximos">Próximos shows</a>
+        <a class="btn btn-hire" href="https://wa.me/5491167663512?text=Hola%20The%20Dreamers%20Roots%21%20Quiero%20contratarlos%20para%20un%20show.%20Les%20cuento%3A%20" target="_blank" rel="noopener">📲 Contratanos</a>
       </div>
     </div>
     <div class="hero-scroll"><span>Bajá</span><span class="chevron"></span></div>
@@ -634,7 +653,8 @@
           <div class="send-box" id="merchSend" hidden>
             <p class="form-msg" id="merchMsg"></p>
             <div class="send-actions">
-              <a class="btn btn-solid" id="sendIg" href="https://ig.me/m/thedreamersroots" target="_blank" rel="noopener">Enviar por Instagram</a>
+              <a class="btn btn-solid" id="sendWpp" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+              <a class="btn btn-outline" id="sendIg" href="https://ig.me/m/thedreamersroots" target="_blank" rel="noopener">Enviar por Instagram</a>
             </div>
           </div>
         </form>
@@ -752,6 +772,18 @@
           </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="contratanos">
+    <div class="wrap hire-box">
+      <p class="eyebrow">¿Organizás un evento?</p>
+      <h2>Llevá el roots a tu fecha</h2>
+      <p class="hire-text">Bares, festivales, fiestas privadas, peñas. Escribinos por WhatsApp y armamos la propuesta.</p>
+      <a class="btn btn-solid btn-hire-big" href="https://wa.me/5491167663512?text=Hola%20The%20Dreamers%20Roots%21%20Quiero%20contratarlos%20para%20un%20show.%20Les%20cuento%3A%20" target="_blank" rel="noopener">
+        <strong>📲 Contratanos</strong>
+        <small>Hablá directo por WhatsApp</small>
+      </a>
     </div>
   </section>
 
@@ -900,11 +932,13 @@
 
 <script>
 (function(){
+  var WPP   = '5491167663512';                       // WhatsApp de la banda
   var IG_DM = 'https://ig.me/m/thedreamersroots';
   var btn=document.getElementById('merchBtn');
   var form=document.getElementById('merchForm');
   var box=document.getElementById('merchSend');
   var msg=document.getElementById('merchMsg');
+  var sendWpp=document.getElementById('sendWpp');
   if(!btn||!form) return;
 
   btn.addEventListener('click', function(){
@@ -929,10 +963,11 @@
       'Mail: ' + d.mail + '\n' +
       'Instagram: ' + d.instagram;
 
+    sendWpp.href = 'https://wa.me/' + WPP + '?text=' + encodeURIComponent(texto);
     try { navigator.clipboard && navigator.clipboard.writeText(texto); } catch(err){}
 
     box.hidden = false;
-    msg.textContent = 'Copiamos tus datos. Tocá el botón: se abre el chat de Instagram de la banda y solo tenés que pegar y enviar.';
+    msg.textContent = 'Por WhatsApp va todo cargado: solo tocás enviar. Por Instagram se abre el chat y pegás los datos, que ya te copiamos.';
     box.scrollIntoView({block:'nearest', behavior:'smooth'});
   });
 })();
