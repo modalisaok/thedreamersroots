@@ -23,6 +23,7 @@
   :root[data-theme="dark"]{ --surface:#0c1108; }
 
   *{box-sizing:border-box;}
+  [hidden]{display:none !important;}
   html,body{margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   section[id]{scroll-margin-top:64px;}
@@ -332,6 +333,34 @@
   .go-btn{flex-direction:column; gap:2px; padding:14px 30px; margin-top:6px; text-align:center;}
   .go-btn strong{font-size:19px; letter-spacing:1.5px;}
   .go-btn small{font-size:11.5px; letter-spacing:.8px; opacity:.8; text-transform:none; font-weight:600;}
+  .gal-item{cursor:inherit;}
+  .gal-item img{transition:transform .25s ease, filter .25s ease;}
+  .gal-item:hover img{transform:scale(1.03); filter:brightness(1.08);}
+  .lightbox{
+    position:fixed; inset:0; z-index:200; background:rgba(6,9,5,.94);
+    display:flex; align-items:center; justify-content:center; padding:28px 16px;
+    backdrop-filter:blur(4px);
+  }
+  .lightbox img{
+    max-width:min(94vw,1100px); max-height:86vh; width:auto; height:auto;
+    border-radius:12px; border:1px solid rgba(231,184,35,.35); box-shadow:0 24px 70px rgba(0,0,0,.8);
+  }
+  .lightbox[hidden]{display:none !important;}
+  .lb-btn{
+    position:absolute; background:rgba(12,17,8,.8); border:1px solid rgba(231,184,35,.45);
+    color:var(--cream); width:46px; height:46px; border-radius:50%; font-size:22px; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:inherit;
+    font-family:'Barlow Condensed',sans-serif;
+  }
+  .lb-btn:hover{background:var(--gold); color:#1c1400;}
+  .lb-prev{left:16px; top:50%; transform:translateY(-50%);}
+  .lb-next{right:16px; top:50%; transform:translateY(-50%);}
+  .lb-close{right:16px; top:calc(16px + env(safe-area-inset-top,0px));}
+  .lb-count{
+    position:absolute; bottom:calc(18px + env(safe-area-inset-bottom,0px)); left:50%; transform:translateX(-50%);
+    font-family:'Barlow Condensed',sans-serif; letter-spacing:2px; font-size:14px; color:var(--muted);
+  }
+  @media (max-width:560px){ .lb-btn{width:40px; height:40px; font-size:19px;} }
   footer{
     background:var(--void-2); border-top:1px solid rgba(231,184,35,.15); padding-block:36px 100px;
     text-align:center; color:var(--muted); font-size:13px;
@@ -905,6 +934,67 @@
     box.hidden = false;
     msg.textContent = 'Copiamos tus datos. Tocá el botón: se abre el chat de Instagram de la banda y solo tenés que pegar y enviar.';
     box.scrollIntoView({block:'nearest', behavior:'smooth'});
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.gallery .gal-item img'));
+  if(!imgs.length) return;
+  var i=0, box=null, big=null, count=null;
+
+  function build(){
+    box=document.createElement('div'); box.className='lightbox'; box.hidden=true;
+    box.setAttribute('role','dialog'); box.setAttribute('aria-label','Foto ampliada');
+    big=document.createElement('img');
+    var prev=mkBtn('‹','lb-prev','Anterior'), next=mkBtn('›','lb-next','Siguiente'), close=mkBtn('✕','lb-close','Cerrar');
+    count=document.createElement('span'); count.className='lb-count';
+    box.appendChild(big); box.appendChild(prev); box.appendChild(next); box.appendChild(close); box.appendChild(count);
+    prev.addEventListener('click', function(e){ e.stopPropagation(); go(-1); });
+    next.addEventListener('click', function(e){ e.stopPropagation(); go(1); });
+    close.addEventListener('click', function(e){ e.stopPropagation(); hide(); });
+    box.addEventListener('click', hide);
+    big.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.body.appendChild(box);
+  }
+  function mkBtn(txt, cls, label){
+    var b=document.createElement('button'); b.type='button'; b.className='lb-btn '+cls;
+    b.textContent=txt; b.setAttribute('aria-label',label); return b;
+  }
+  function show(n){
+    i=(n+imgs.length)%imgs.length;
+    big.src=imgs[i].src; big.alt=imgs[i].alt||'';
+    count.textContent=(i+1)+' / '+imgs.length;
+    box.hidden=false; document.body.style.overflow='hidden';
+  }
+  function hide(){ box.hidden=true; document.body.style.overflow=''; }
+  function go(d){ show(i+d); }
+
+  build();
+  imgs.forEach(function(img, n){
+    img.parentElement.setAttribute('tabindex','0');
+    img.parentElement.setAttribute('role','button');
+    img.parentElement.setAttribute('aria-label','Ampliar foto');
+    img.parentElement.addEventListener('click', function(){ show(n); });
+    img.parentElement.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); show(n); }
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(box.hidden) return;
+    if(e.key==='Escape') hide();
+    if(e.key==='ArrowRight') go(1);
+    if(e.key==='ArrowLeft') go(-1);
+  });
+  // deslizar en celular
+  var x0=null;
+  box && box.addEventListener('touchstart', function(e){ x0=e.touches[0].clientX; }, {passive:true});
+  box && box.addEventListener('touchend', function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50) go(dx<0?1:-1);
+    x0=null;
   });
 })();
 </script>
