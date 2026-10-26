@@ -261,6 +261,9 @@
   .merch-form input::placeholder{color:rgba(185,194,168,.5);}
   .merch-form input:focus{outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(231,184,35,.18);}
   .merch-form .btn{align-self:flex-start;}
+  .send-box{display:flex; flex-direction:column; gap:12px;}
+  .send-actions{display:flex; gap:10px; flex-wrap:wrap;}
+  .send-actions .btn{padding:11px 20px; font-size:13.5px;}
   .form-msg{
     margin:0; font-family:'Barlow Condensed',sans-serif; font-size:14.5px; letter-spacing:.4px;
     color:var(--sky); background:rgba(121,179,201,.1); border:1px solid rgba(121,179,201,.35);
@@ -599,7 +602,12 @@
             <input id="mIg" name="instagram" type="text" placeholder="@tuusuario">
           </div>
           <button type="submit" class="btn btn-solid">Anotarme</button>
-          <p class="form-msg" id="merchMsg" hidden></p>
+          <div class="send-box" id="merchSend" hidden>
+            <p class="form-msg" id="merchMsg"></p>
+            <div class="send-actions">
+              <a class="btn btn-solid" id="sendIg" href="https://ig.me/m/thedreamersroots" target="_blank" rel="noopener">Enviar por Instagram</a>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -863,9 +871,10 @@
 
 <script>
 (function(){
-  var DESTINO = 'modalisa.ventas@gmail.com';   // adónde llegan los datos
+  var IG_DM = 'https://ig.me/m/thedreamersroots';
   var btn=document.getElementById('merchBtn');
   var form=document.getElementById('merchForm');
+  var box=document.getElementById('merchSend');
   var msg=document.getElementById('merchMsg');
   if(!btn||!form) return;
 
@@ -884,18 +893,18 @@
       mail: document.getElementById('mMail').value.trim(),
       instagram: document.getElementById('mIg').value.trim()
     };
-    var cuerpo =
-      'Quiero el merch oficial de The Dreamers Roots%0D%0A%0D%0A' +
-      'Nombre: ' + encodeURIComponent(d.nombre) + '%0D%0A' +
-      'WhatsApp: ' + encodeURIComponent(d.whatsapp) + '%0D%0A' +
-      'Mail: ' + encodeURIComponent(d.mail) + '%0D%0A' +
-      'Instagram: ' + encodeURIComponent(d.instagram);
-    window.location.href = 'mailto:' + DESTINO +
-      '?subject=' + encodeURIComponent('Lista de espera merch - ' + d.nombre) +
-      '&body=' + cuerpo;
-    msg.hidden = false;
-    msg.textContent = '¡Gracias ' + (d.nombre.split(' ')[0] || '') + '! Se abre tu mail con los datos cargados: tocá enviar y te avisamos apenas salga el merch.';
-    form.reset();
+    var texto =
+      'Quiero el merch oficial de The Dreamers Roots\n' +
+      'Nombre: ' + d.nombre + '\n' +
+      'WhatsApp: ' + d.whatsapp + '\n' +
+      'Mail: ' + d.mail + '\n' +
+      'Instagram: ' + d.instagram;
+
+    try { navigator.clipboard && navigator.clipboard.writeText(texto); } catch(err){}
+
+    box.hidden = false;
+    msg.textContent = 'Copiamos tus datos. Tocá el botón: se abre el chat de Instagram de la banda y solo tenés que pegar y enviar.';
+    box.scrollIntoView({block:'nearest', behavior:'smooth'});
   });
 })();
 </script>
