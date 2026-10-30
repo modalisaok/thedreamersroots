@@ -145,6 +145,43 @@
   .social-strip a:hover{background:rgba(231,184,35,.12); border-color:var(--gold);}
   .social-strip svg{width:18px;height:18px; fill:currentColor;}
 
+
+  /* ---------- JUEGOS ---------- */
+  .play-cta{
+    position:relative; display:flex; align-items:center; gap:14px; margin-top:10px; padding:12px 18px 12px 14px;
+    border-radius:18px; text-decoration:none; color:var(--cream); max-width:100%;
+    background:linear-gradient(var(--void),var(--void)) padding-box, linear-gradient(90deg,var(--green),var(--gold),var(--red),var(--gold),var(--green)) border-box;
+    background-size:100% 100%,300% 100%; border:2px solid transparent;
+    box-shadow:0 0 0 0 rgba(231,184,35,.45); animation:playBorder 6s linear infinite, playPulse 2.4s ease-out infinite;
+    transition:transform .15s ease;
+  }
+  .play-cta:hover{transform:translateY(-2px) scale(1.02);}
+  .play-cta:focus-visible{outline:3px solid var(--cream); outline-offset:4px;}
+  .play-ico{font-size:30px; line-height:1;}
+  .play-txt{display:flex; flex-direction:column; text-align:left; font-family:'Barlow Condensed',sans-serif; min-width:0;}
+  .play-txt strong{font-size:19px; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold);}
+  .play-txt small{font-size:14px; color:var(--muted);}
+  .play-go{display:grid; place-items:center; width:38px; height:38px; flex:none; border-radius:50%; background:var(--red); color:var(--cream); font-size:15px;}
+  .play-new{position:absolute; top:-10px; right:14px; background:var(--red); color:var(--cream); font:700 11px/1 'Barlow Condensed',sans-serif; letter-spacing:1.5px; text-transform:uppercase; padding:4px 8px; border-radius:6px;}
+  @keyframes playBorder{to{background-position:0 0,300% 0;}}
+  @keyframes playPulse{0%{box-shadow:0 0 0 0 rgba(231,184,35,.45);}100%{box-shadow:0 0 0 16px rgba(231,184,35,0);}}
+  @media (prefers-reduced-motion:reduce){.play-cta{animation:none;}}
+  #juegos{background:var(--void);}
+  .games-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px;}
+  @media (max-width:860px){.games-grid{grid-template-columns:1fr; max-width:520px;}}
+  .game-card{display:flex; flex-direction:column; text-decoration:none; color:var(--ink); background:var(--void-2); border:1px solid rgba(231,184,35,.15); border-radius:14px; overflow:hidden; transition:transform .15s ease, border-color .15s ease;}
+  .game-card:hover{transform:translateY(-4px); border-color:var(--gold);}
+  .game-card:focus-visible{outline:3px solid var(--cream); outline-offset:3px;}
+  .game-thumb{position:relative; aspect-ratio:5/3; overflow:hidden; background:#000;}
+  .game-thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease;}
+  .game-card:hover .game-thumb img{transform:scale(1.05);}
+  .game-play{position:absolute; inset:0; margin:auto; width:58px; height:58px; border-radius:50%; display:grid; place-items:center; background:rgba(184,48,47,.92); color:var(--cream); font-size:22px; box-shadow:0 6px 24px rgba(0,0,0,.5);}
+  .game-tag{position:absolute; top:10px; left:10px; background:var(--gold); color:#1c1400; font:700 13px/1 'Barlow Condensed',sans-serif; letter-spacing:1px; padding:5px 8px; border-radius:6px;}
+  .game-body{display:flex; flex-direction:column; gap:8px; padding:18px 20px 20px; flex:1;}
+  .game-body h3{margin:0; font-size:22px; color:var(--cream);}
+  .game-body p{margin:0; color:var(--muted); font-size:15px; line-height:1.5;}
+  .game-body .btn{margin-top:auto; align-self:flex-start; padding:10px 22px; font-size:14px;}
+
   /* ---------- SECTION HEADERS ---------- */
   .sec-head{max-width:640px; margin-bottom:36px;}
   .sec-head h2{font-size:clamp(26px,4vw,38px); margin:0 0 10px; color:var(--cream);}
@@ -433,6 +470,7 @@
     <nav class="links">
       <a href="#historia">Nuestra Historia</a>
       <a href="#disco">Primer Disco</a>
+      <a href="#juegos">Juegos</a>
       <a href="#musicos">Músicos</a>
       <a href="#shows-roots">Shows Roots!</a>
       <a href="#merch">Merchandising</a>
@@ -458,6 +496,12 @@
         <a class="btn btn-outline" href="#proximos">Próximos shows</a>
         <a class="btn btn-hire" href="https://wa.me/5491167663512?text=Hola%20The%20Dreamers%20Roots%21%20Quiero%20contratarlos%20para%20un%20show.%20Les%20cuento%3A%20" target="_blank" rel="noopener">📲 Contratanos</a>
       </div>
+      <a class="play-cta" href="#juegos">
+        <span class="play-new">Nuevo</span>
+        <span class="play-ico" aria-hidden="true">🎮</span>
+        <span class="play-txt"><strong>Jugá a los juegos Dreamers</strong><small>3 jueguitos con la música de Babylon Is Burning</small></span>
+        <span class="play-go" aria-hidden="true">▶</span>
+      </a>
     </div>
     <div class="hero-scroll"><span>Bajá</span><span class="chevron"></span></div>
   </section>
@@ -490,7 +534,7 @@
       <div class="sec-head">
         <div class="divider"></div>
         <p class="eyebrow" data-es="Quiénes somos" data-en="Who we are">Quiénes somos</p>
-        <h2 data-es="Nuestra Historia Dreamers" data-en="Our Dreamers Story">Nuestra Historia Dreamers</h2>
+        <h2 data-es="Nuestra Historia Dreamer" data-en="Our Dreamers Story">Nuestra Historia Dreamer</h2>
         <p data-es="De dónde venimos, qué nos mueve y hacia dónde vamos." data-en="Where we come from, what moves us and where we are heading.">De dónde venimos, qué nos mueve y hacia dónde vamos.</p>
       </div>
 
@@ -541,6 +585,43 @@
           </ul>
           <div style="margin-top:18px;"><a class="btn btn-solid" href="https://open.spotify.com/intl-es/artist/3GGadIaVfzQO2amB4criGb?si=M0-42P24SumC9a-smoqm7A" target="_blank" rel="noopener">Escuchar en Spotify</a></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="juegos">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="divider"></div>
+        <p class="eyebrow">Jugá con nosotros</p>
+        <h2>Juegos Dreamers</h2>
+        <p>Tres jueguitos para pasar un rato con la música de <em>Babylon Is Burning</em>. Se juegan desde el celu o la compu, sin bajar nada.</p>
+      </div>
+      <div class="games-grid">
+        <a class="game-card" href="juegos/atrapa-el-roots.html">
+          <div class="game-thumb"><img src="juegos/img/atrapa-el-roots.jpg" alt="Atrapá el Roots! en juego" loading="lazy"><span class="game-play">▶</span></div>
+          <div class="game-body">
+            <h3>Atrapá el Roots!</h3>
+            <p>Sos el bajista. Atrapá las notas al ritmo del disco y esquivá el fuego de Babylon: un minuto de cada tema.</p>
+            <span class="btn btn-solid">Jugar</span>
+          </div>
+        </a>
+        <a class="game-card" href="juegos/rasta-love.html">
+          <div class="game-thumb"><img src="juegos/img/rasta-love.jpg" alt="Rasta Love en juego" loading="lazy"><span class="game-play">▶</span></div>
+          <div class="game-body">
+            <h3>Rasta Love</h3>
+            <p>Caminá por el barrio y tirá corazones. Los de traje que tocás con amor se vuelven buena onda.</p>
+            <span class="btn btn-solid">Jugar</span>
+          </div>
+        </a>
+        <a class="game-card" href="juegos/rasta-love-3d.html">
+          <div class="game-thumb"><img src="juegos/img/rasta-love-3d.jpg" alt="Rasta Love 3D en juego" loading="lazy"><span class="game-play">▶</span><span class="game-tag">3D</span></div>
+          <div class="game-body">
+            <h3>Rasta Love 3D</h3>
+            <p>Elegí a tu músico de la banda, recorré la plaza y llenala de gente escuchando Dreamers.</p>
+            <span class="btn btn-solid">Jugar</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
